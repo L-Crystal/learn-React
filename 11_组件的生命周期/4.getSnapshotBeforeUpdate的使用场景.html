@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>新生命周期</title>
+    <style>
+      .list {
+        width: 200px;
+        height: 150px;
+        background-color: skyblue;
+        overflow: auto;
+      }
+      .news {
+        height: 30px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="test1"></div>
+
+    <script
+      type="text/javascript"
+      src="../js_new/react.development.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="../js_new/react-dom.development.js"
+    ></script>
+    <script type="text/javascript" src="../js_new/babel.min.js"></script>
+    <script type="text/javascript" src="../js_new/prop-types.js"></script>
+
+    <script type="text/babel">
+      // 1.创建组件
+      class NewsList extends React.Component {
+        state = {
+          newsArr: [],
+        };
+
+        // 组件挂载完毕的钩子
+        componentDidMount() {
+          setInterval(() => {
+            const { newsArr } = this.state;
+            const news = '新闻'+(newsArr.length+1)
+            this.setState({newsArr:[news,...newsArr]})
+          }, 1000);
+        }
+        // 组件将要卸载的钩子
+        componentWillUnmount() {
+          console.log("count-componentWillUnmount");
+        }
+
+        // 控制组件更新的阀门
+        shouldComponentUpdate() {
+          console.log("count-shouldComponentUpdate");
+          return true;
+        }
+
+        // 在更新前获取快照
+        getSnapshotBeforeUpdate() {
+          return this.refs.list.scrollHeight
+        }
+
+        // 组件更新完毕的钩子
+        componentDidUpdate(preProps, preState, height) {
+          this.refs.list.scrollTop +=this.refs.list.scrollHeight- height
+        }
+        render() {
+          return (
+            <div className="list" ref="list">
+              {this.state.newsArr.map((item)=>{
+                return <div key={item} className="news">{item}</div>
+              })}
+            </div>
+          );
+        }
+      }
+      // 渲染组件
+      ReactDOM.render(<NewsList />, document.querySelector("#test1"));
+    </script>
+  </body>
+</html>

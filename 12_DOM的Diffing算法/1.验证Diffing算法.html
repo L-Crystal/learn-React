@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Diffing</title>
+  </head>
+  <body>
+    <div id="test1"></div>
+
+    <script
+      type="text/javascript"
+      src="../js_new/react.development.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="../js_new/react-dom.development.js"
+    ></script>
+    <script type="text/javascript" src="../js_new/babel.min.js"></script>
+    <script type="text/javascript" src="../js_new/prop-types.js"></script>
+
+    <script type="text/babel">
+      class Time extends React.Component {
+        state = {
+          date: new Date(),
+        };
+        componentDidMount() {
+          setInterval(() => {
+            this.setState({ date: new Date() });
+          }, 1000);
+        }
+
+        render() {
+          return (
+            <div>
+              <h1>hello</h1>
+              <input type="text" />
+              <span>
+                现在是：{this.state.date.toTimeString()}
+                <input type="text" />
+              </span>
+            </div>
+          );
+        }
+      }
+      // 渲染组件
+      ReactDOM.render(<Time />, document.querySelector("#test1"));
+    </script>
+  </body>
+</html>
